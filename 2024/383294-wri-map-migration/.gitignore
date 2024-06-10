@@ -1,0 +1,7 @@
+# examples and templates
+boundaries/
+query-accidents/
+# yarn installation
+node_modules/
+yarn.lock
+package-lock.json
