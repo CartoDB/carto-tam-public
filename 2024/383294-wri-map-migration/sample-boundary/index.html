@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://app.carto.com/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="https://app.carto.com/favicon/favicon-16x16.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WRI - Projected indicator layers</title>
+  <body>
+    <div id="app">
+      <div id="map"></div>
+      <canvas id="deck-canvas"></canvas>
+      <div id="story-card">
+        <p class="overline">Select your parameters</p>
+        <h2>Projected indicator</h2>
+        <p>Select the parameters below to see the projected scenario.</p>
+        <div class="layer-controls"> 
+          <p class="overline">Choose a year</p>
+          <select id="yearSelector">
+            <option value="2020" selected>2020</option>
+            <option value="2030">2030</option>
+            <option value="2040">2040</option>
+          </select>
+          <p class="overline">Choose an scenario</p>
+          <select id="scenarioSelector">
+            <option value="pessimistic">Pessimistic</option>
+            <option value="optimistic">Optimistic</option>
+            <option value="business_as_usual" selected>Business as usual</option>
+          </select>
+          <p class="caption source">Source: Resource Watch and Global Forest Watch</p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>
