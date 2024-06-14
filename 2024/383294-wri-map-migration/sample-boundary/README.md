@@ -1,7 +1,12 @@
-## POC: Assessing water risk potential (via SQL Query + SQL Parameters)
+# POC: Assessing water risk potential (via SQL Query + SQL Parameters)
+## Technologies
+### SQL Query + SQL Parameters
+Using the dropdown menus, you can select different combinations to query your data using [query parameters](https://docs.carto.com/carto-for-developers/carto-for-react/guides/query-parameters)
 
-You can use SQL to query data directly from the app, including query parameters. This increased flexibility makes CARTO a great solution to build geospatial applications.
+### Boundaries
+Using [tileset boundaries](https://docs.carto.com/carto-for-developers/guides/use-boundaries-in-your-application) geometries and data are separated to increase performance and efficiency of the map.
 
+### Server
 Uses [Vite](https://vitejs.dev/) to bundle and serve files.
 
 
