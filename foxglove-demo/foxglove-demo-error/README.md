@@ -9,14 +9,14 @@ open a project
 add a new panel, the name of the installed panel will be 'Foxglove Carto Map Panel [local]'
 
 cant resolve these errors:
-```36e624d8-04c6-428d-a672-a9db2b857b8a:4 DOMException: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js' failed to load.
-at blob:file:///36e624d8-04c6-428d-a672-a9db2b857b8a:2:3```
+`36e624d8-04c6-428d-a672-a9db2b857b8a:4 DOMException: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js' failed to load.
+at blob:file:///36e624d8-04c6-428d-a672-a9db2b857b8a:2:3`
 
-```index.cjs:452 Worker exception: Error: Failed to load worker cartovectortile (#1 of 3) from https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js. Uncaught NetworkError: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js' failed to load```
+`index.cjs:452 Worker exception: Error: Failed to load worker cartovectortile (#1 of 3) from https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js. Uncaught NetworkError: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js' failed to load`
 
-```Error: Failed to load worker cartovectortile (#1 of 3) from https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js. Uncaught NetworkError: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js' failed to load. in :5:3
+`Error: Failed to load worker cartovectortile (#1 of 3) from https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js. Uncaught NetworkError: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'https://unpkg.com/@deck.gl/carto@9.0.20/dist/cartoVectorTile-worker.js' failed to load. in :5:3
 at WorkerThread.\_getErrorFromErrorEvent (index.cjs:312:1)
-at worker.onerror (index.cjs:328:1)```
+at worker.onerror (index.cjs:328:1)`
 
 # carto-map-panel
 
