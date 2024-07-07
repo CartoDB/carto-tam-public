@@ -1,20 +1,19 @@
 import './style.css';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import {Deck} from '@deck.gl/core';
-import {BASEMAP, vectorQuerySource, VectorTileLayer} from '@deck.gl/carto';
+import { Deck } from '@deck.gl/core';
+import { BASEMAP, vectorQuerySource, VectorTileLayer } from '@deck.gl/carto';
 
-// Retrieve environment variables
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-const accessToken = import.meta.env.VITE_API_ACCESS_TOKEN;
-
+// Hard-coded values for debugging
+const apiBaseUrl = 'https://gcp-us-east1.api.carto.com';
+const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfN3hoZnd5bWwiLCJqdGkiOiI5MzAzYmQxNCJ9.fF6vEZ9_QaRAWxbapR4DtJ6zIOTiHOiuTE8g95DKtmQ';
 const connectionName = 'carto_dw';
-const cartoConfig = {apiBaseUrl, accessToken, connectionName};
+const cartoConfig = { apiBaseUrl, accessToken, connectionName };
 
 const INITIAL_VIEW_STATE = {
-  latitude: 42.3514, 
-  longitude: -83.0658, 
-  zoom: 12, 
+  latitude: 42.3514,
+  longitude: -83.0658,
+  zoom: 12,
   bearing: 0,
   pitch: 0,
 };
@@ -33,9 +32,9 @@ const map = new maplibregl.Map({
 });
 
 deck.setProps({
-  onViewStateChange: ({viewState}) => {
-    const {longitude, latitude, ...rest} = viewState;
-    map.jumpTo({center: [longitude, latitude], ...rest});
+  onViewStateChange: ({ viewState }) => {
+    const { longitude, latitude, ...rest } = viewState;
+    map.jumpTo({ center: [longitude, latitude], ...rest });
   }
 });
 
@@ -64,7 +63,11 @@ async function fetchVersions() {
     console.log('Response Headers:', response.headers);
 
     const contentType = response.headers.get('content-type');
+    console.log('Content-Type:', contentType);
+
     if (contentType && contentType.indexOf('application/json') === -1) {
+      const text = await response.text();
+      console.error('Response Text:', text);
       throw new Error(`Expected JSON, but received ${contentType}`);
     }
 
@@ -79,7 +82,7 @@ async function fetchVersions() {
 
     console.log('Fetched versions data:', data);
 
-    const versions = data.rows.map((row: {version: string}) => row.version).sort();
+    const versions = data.rows.map((row: { version: string }) => row.version).sort();
     versions.forEach((version: string) => {
       const option = document.createElement('option');
       option.value = version;
@@ -97,7 +100,7 @@ function render(version: string) {
   const dataSource = vectorQuerySource({
     ...cartoConfig,
     sqlQuery: `SELECT * FROM \`carto-dw-ac-7xhfwyml.shared.ford-blue-zones\` WHERE version = @version`,
-    queryParameters: {'version': version}
+    queryParameters: { 'version': version }
   });
 
   const layers = [
@@ -105,10 +108,10 @@ function render(version: string) {
       id: 'ford-blue-zones',
       data: dataSource,
       pickable: true,
-      opacity: 0.3, 
-      getFillColor: [0, 0, 255, 77], 
-      getLineColor: [0, 0, 255], 
-      lineWidthMinPixels: 2 
+      opacity: 0.3,
+      getFillColor: [0, 0, 255, 77],
+      getLineColor: [0, 0, 255],
+      lineWidthMinPixels: 2
     }),
   ];
 
