@@ -1,15 +1,23 @@
-const { Configuration } = require('webpack');
+{
+  "extends": "create-foxglove-extension/tsconfig/tsconfig.json",
 
-/**
- * @type {import('webpack').Configuration}
- */
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
-};
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "lib": ["DOM", "ES2017"],  
+    "target": "ES5", 
+    "module": "commonjs",  
+
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node", 
+    "esModuleInterop": true,  
+    "skipLibCheck": true  
+  }
+}
