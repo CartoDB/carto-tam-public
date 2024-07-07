@@ -7,6 +7,7 @@ import {BASEMAP, vectorQuerySource, VectorTileLayer} from '@deck.gl/carto';
 // Retrieve environment variables
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 const accessToken = import.meta.env.VITE_API_ACCESS_TOKEN;
+
 const connectionName = 'carto_dw';
 const cartoConfig = {apiBaseUrl, accessToken, connectionName};
 
@@ -61,6 +62,11 @@ async function fetchVersions() {
 
     console.log('Response Status:', response.status);
     console.log('Response Headers:', response.headers);
+
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.indexOf('application/json') === -1) {
+      throw new Error(`Expected JSON, but received ${contentType}`);
+    }
 
     if (!response.ok) {
       throw new Error(`Error fetching versions: ${response.statusText}`);
