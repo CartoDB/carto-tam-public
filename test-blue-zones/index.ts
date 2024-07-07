@@ -3,10 +3,11 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Deck } from '@deck.gl/core';
 import { BASEMAP, vectorQuerySource, VectorTileLayer } from '@deck.gl/carto';
+import config from './config.json'; // Import the configuration file
 
-// Hard-coded values for debugging
-const apiBaseUrl = 'https://gcp-us-east1.api.carto.com';
-const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfN3hoZnd5bWwiLCJqdGkiOiI5MzAzYmQxNCJ9.fF6vEZ9_QaRAWxbapR4DtJ6zIOTiHOiuTE8g95DKtmQ';
+// Retrieve environment variables from the configuration file
+const apiBaseUrl = config.apiBaseUrl;
+const accessToken = config.accessToken;
 const connectionName = 'carto_dw';
 const cartoConfig = { apiBaseUrl, accessToken, connectionName };
 
