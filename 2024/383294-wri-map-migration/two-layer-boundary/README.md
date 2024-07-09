@@ -1,13 +1,18 @@
-## Example: Accidents by state (via SQL Query + SQL Parameters)
+# POC: Assessing water risk potential (via SQL Query + SQL Parameters)
+## Technologies
+### SQL Query + SQL Parameters
+Using the dropdown menus, you can select different combinations to query your data using [query parameters](https://docs.carto.com/carto-for-developers/carto-for-react/guides/query-parameters)
 
-You can use SQL to query data directly from the app, including query parameters. This increased flexibility makes CARTO a great solution to build geospatial applications.
+### Boundaries
+Using [tileset boundaries](https://docs.carto.com/carto-for-developers/guides/use-boundaries-in-your-application) geometries and data are separated to increase performance and efficiency of the map.
 
+### Server
 Uses [Vite](https://vitejs.dev/) to bundle and serve files.
 
 
 ## Usage
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/CartoDB/tam-support/tree/main/2024/383294-wri-map-migration-deck-gl?file=index.ts)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/CartoDB/carto-tam-public/tree/master/2024/383294-wri-map-migration/two-layer-boundary?file=index.ts)
 
 Or run it locally:
 
@@ -18,5 +23,5 @@ yarn
 ```
 
 Commands:
-* `npm dev` is the development target, to serve the app and hot reload.
+* `npm run dev` is the development target, to serve the app and hot reload.
 * `npm run build` is the production target, to create the final bundle and write to disk.
