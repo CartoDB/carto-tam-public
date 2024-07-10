@@ -9,7 +9,7 @@ import { BASEMAP, vectorQuerySource, VectorTileLayer } from "@deck.gl/carto";
 
 const apiBaseUrl = "https://gcp-us-east1.api.carto.com";
 const accessToken =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfN3hoZnd5bWwiLCJqdGkiOiI5MzAzYmQxNCJ9.fF6vEZ9_QaRAWxbapR4DtJ6zIOTiHOiuTE8g95DKtmQ";
+  "YOUR_ACCESS_TOKEN";
 const connectionName = "carto_dw";
 const cartoConfig = { apiBaseUrl, accessToken, connectionName };
 
