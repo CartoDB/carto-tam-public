@@ -1,4 +1,4 @@
-# CARTO Example using Vector Query Layers and CARTO Basemap selector
+# CARTO Example using Vector Query Layers and GOOGLE Basemap selector
 
 ### Server
 

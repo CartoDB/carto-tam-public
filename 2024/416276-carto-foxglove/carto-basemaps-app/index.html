@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://app.carto.com/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="https://app.carto.com/favicon/favicon-16x16.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blue Zones - Google Basemaps</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCeKOH2OfqrTGX0m8P41d8iR4hQUaW4VM"></script>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div id="app">
+      <div id="map"></div>
+      <canvas id="deck-canvas"></canvas>
+      <div id="dropdown-container">
+        <label for="versionSelector">Data Version:</label>
+        <select id="versionSelector"></select>
+        <label for="basemapSelector">Basemap:</label>
+        <select id="basemapSelector">
+          <option value="roadmap.3754c817b510f791">Roadmap</option>
+          <option value="satellite.3754c817b510f791">Satellite</option>
+          <option value="hybrid.3754c817b510f791">Hybrid</option>
+          <option value="terrain.3754c817b510f791">Terrain</option>
+        </select>
+      </div>
+    </div>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>
