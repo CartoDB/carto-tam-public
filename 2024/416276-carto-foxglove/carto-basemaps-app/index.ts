@@ -1,10 +1,11 @@
 import './style.css';
-import { GoogleMapsOverlay as DeckOverlay } from '@deck.gl/google-maps';
-import { VectorTileLayer, vectorQuerySource } from '@deck.gl/carto';
-import { Loader } from '@googlemaps/js-api-loader';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { Deck } from '@deck.gl/core';
+import { BASEMAP, vectorQuerySource, VectorTileLayer } from '@deck.gl/carto';
 import config from './config.json'; // Import the configuration file
 
-const GOOGLE_MAPS_API_KEY = config.googleMapsApiKey;
+// Retrieve environment variables from the configuration file
 const apiBaseUrl = config.apiBaseUrl;
 const accessToken = config.accessToken;
 const connectionName = 'carto_dw';
@@ -15,44 +16,46 @@ const INITIAL_VIEW_STATE = {
   longitude: -83.0658,
   zoom: 12,
   bearing: 0,
-  pitch: 0,
+  pitch: 45,  // Default pitch to give a better perspective view
+  maxZoom: 20  // Set max zoom level
 };
 
-let map: google.maps.Map;
-let deckOverlay: DeckOverlay;
-let layers: VectorTileLayer[];
+const deck = new Deck({
+  canvas: 'deck-canvas',
+  initialViewState: INITIAL_VIEW_STATE,
+  controller: true  
+});
 
-function setBasemap(mapTypeId: string, mapId: string) {
-  const center = map ? map.getCenter() : { lat: INITIAL_VIEW_STATE.latitude, lng: INITIAL_VIEW_STATE.longitude };
-  const zoom = map ? map.getZoom() : INITIAL_VIEW_STATE.zoom;
+// Add basemap
+let map = new maplibregl.Map({
+  container: 'map',
+  style: BASEMAP.VOYAGER,
+  interactive: true,
+  pitchWithRotate: true,  
+  dragRotate: true,      
+  maxZoom: 20            
+});
 
-  if (deckOverlay) {
-    deckOverlay.setMap(null);
+deck.setProps({
+  onViewStateChange: ({ viewState }) => {
+    const { longitude, latitude, zoom, pitch, bearing } = viewState;
+    map.jumpTo({
+      center: [longitude, latitude],
+      zoom,
+      pitch,
+      bearing,
+    });
   }
+});
 
-  document.getElementById('map')!.innerHTML = ''; // Clear the map container
-
-  map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-    center,
-    zoom,
-    mapId,
-    mapTypeId,
-    mapTypeControl: false,
-    streetViewControl: false,
-    disableDefaultUI: true,
-    tilt: 45 // Ensure tilt is set for 3D buildings
-  });
-
-  deckOverlay = new DeckOverlay({
-    layers: layers || []
-  });
-
-  deckOverlay.setMap(map);
-}
+const versionSelector = document.getElementById('versionSelector') as HTMLSelectElement;
+const basemapSelector = document.getElementById('basemapSelector') as HTMLSelectElement;
 
 async function fetchVersions() {
   const query = `SELECT DISTINCT version FROM \`carto-dw-ac-7xhfwyml.shared.ford-blue-zones\``;
   const url = `${apiBaseUrl}/v3/sql/carto_dw/query?q=${encodeURIComponent(query)}`;
+
+  console.log('URL:', url);
 
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -67,9 +70,15 @@ async function fetchVersions() {
   try {
     const response = await fetch(url, requestOptions);
 
+    console.log('Response Status:', response.status);
+    console.log('Response Headers:', response.headers);
+
     const contentType = response.headers.get('content-type');
+    console.log('Content-Type:', contentType);
+
     if (contentType && contentType.indexOf('application/json') === -1) {
       const text = await response.text();
+      console.error('Response Text:', text);
       throw new Error(`Expected JSON, but received ${contentType}`);
     }
 
@@ -82,8 +91,9 @@ async function fetchVersions() {
       throw new Error('No data received');
     }
 
+    console.log('Fetched versions data:', data);
+
     const versions = data.rows.map((row: { version: string }) => row.version).sort();
-    const versionSelector = document.getElementById('versionSelector') as HTMLSelectElement;
     versions.forEach((version: string) => {
       const option = document.createElement('option');
       option.value = version;
@@ -91,10 +101,7 @@ async function fetchVersions() {
       versionSelector.appendChild(option);
     });
 
-    // Initialize the map with the first version
-    if (versions.length > 0) {
-      render(versions[0]);
-    }
+    console.log('Versions added to dropdown:', versions);
   } catch (error) {
     console.error('Error in fetchVersions:', error);
   }
@@ -107,7 +114,7 @@ function render(version: string) {
     queryParameters: { 'version': version }
   });
 
-  layers = [
+  const layers = [
     new VectorTileLayer({
       id: 'ford-blue-zones',
       data: dataSource,
@@ -119,33 +126,28 @@ function render(version: string) {
     }),
   ];
 
-  if (deckOverlay) {
-    deckOverlay.setProps({ layers });
-  }
+  deck.setProps({
+    layers: layers
+  });
 }
 
-document.getElementById('versionSelector')!.addEventListener('change', (event) => {
+function updateBasemap(basemap: string) {
+  map.setStyle(BASEMAP[basemap]);
+}
+
+versionSelector.addEventListener('change', (event) => {
   const selectedVersion = (event.target as HTMLSelectElement).value;
   render(selectedVersion);
 });
 
-document.getElementById('basemapSelector')!.addEventListener('change', (event) => {
+basemapSelector.addEventListener('change', (event) => {
   const selectedBasemap = (event.target as HTMLSelectElement).value;
-  const [mapTypeId, mapId] = selectedBasemap.split('.');
-  setBasemap(mapTypeId, mapId);
+  updateBasemap(selectedBasemap);
+});
 
-  const versionSelector = document.getElementById('versionSelector') as HTMLSelectElement;
-  if (versionSelector && versionSelector.value) {
-    render(versionSelector.value);
+// Initial render with the first version available
+fetchVersions().then(() => {
+  if (versionSelector.options.length > 0) {
+    render(versionSelector.options[0].value);
   }
-});
-
-const loader = new Loader({
-  apiKey: GOOGLE_MAPS_API_KEY,
-  version: 'weekly'
-});
-
-loader.load().then(async () => {
-  setBasemap('roadmap', '3754c817b510f791'); // Default to Google Roadmap
-  fetchVersions();
 });
